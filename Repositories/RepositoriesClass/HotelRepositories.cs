@@ -1,6 +1,7 @@
 ﻿using Hotel_Booking_System.Data;
 using Hotel_Booking_System.Dto;
 using Hotel_Booking_System.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hotel_Booking_System.Repositories.RepositoriesClass
@@ -9,6 +10,7 @@ namespace Hotel_Booking_System.Repositories.RepositoriesClass
     {
 
         private readonly HotelRoomDbContext projectcontext;
+        
 
         public HotelRepositories(HotelRoomDbContext context)
         {
@@ -85,7 +87,7 @@ namespace Hotel_Booking_System.Repositories.RepositoriesClass
                 throw ex;
             }
         }
-        //jdjdjd
+        
 
 
         public async Task<Hotel> GetHotelByIdAsync(int id)
@@ -100,21 +102,15 @@ namespace Hotel_Booking_System.Repositories.RepositoriesClass
             }
         }
 
-        public async Task<Hotel> PostHotelsAsync(CreateHotelDto hotel)
+        public async Task<Hotel> PostHotelsAsync(Hotel hotel)
         {
             try
             {
                 
-                var newHotel = new Hotel
-                {
-                    Name=hotel.Name ,
-                    Address= hotel.Address,
-                    PhoneNumber = hotel.PhoneNumber
-
-                };
-                projectcontext.hotels.Add(newHotel);
+                
+                projectcontext.hotels.Add(hotel);
                 await projectcontext.SaveChangesAsync();
-                return newHotel;
+                return hotel;
             }
             catch (Exception ex)
             {

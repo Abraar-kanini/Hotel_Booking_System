@@ -53,21 +53,14 @@ namespace Hotel_Booking_System.Repositories.RepositoriesClass
             }
         }
 
-        public async Task<Room> PostRoomAsync(CreateRoomDto room)
+        public async Task<Room> PostRoomAsync(Room room)
         {
             try
             {
-                var newRoom = new Room
-                {
-                   RoomNumber  = room.RoomNumber,
-                    Type= room.Type,
-                    Capacity =room.Capacity,
-                    HotelId= room.HotelId,
-
-                };
-                projectcontext.Rooms.Add(newRoom);
+                
+                projectcontext.Rooms.Add(room);
                 await projectcontext.SaveChangesAsync();
-                return newRoom;
+                return room;
             }
             catch (Exception ex)
             {

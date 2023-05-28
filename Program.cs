@@ -1,4 +1,5 @@
 using System.Text;
+using Hotel_Booking_System.Common;
 using Hotel_Booking_System.Data;
 using Hotel_Booking_System.Repositories;
 using Hotel_Booking_System.Repositories.RepositoriesClass;
@@ -34,6 +35,12 @@ builder.Services.AddDbContext<HotelRoomDbContext>(option => option.UseSqlServer(
 #endregion
 builder.Services.AddScoped<IHotelRepositories, HotelRepositories>();
 builder.Services.AddScoped<IRoomRepositories, RoomlRepositories>();
+
+#region configure AutoMapper
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+#endregion
 
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>

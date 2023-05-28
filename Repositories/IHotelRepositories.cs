@@ -7,7 +7,7 @@ namespace Hotel_Booking_System.Repositories
     {
         Task<IEnumerable<Hotel>> GetAllHotelsAsync();
         Task<Hotel> GetHotelByIdAsync(int id);
-        Task<Hotel> PostHotelsAsync(CreateHotelDto hotel);
+        Task<Hotel> PostHotelsAsync(Hotel hotel);
         Task<Hotel> PutHotelAsync(int id, Hotel hotel);
         Task<Hotel> DelHotelsAsync(int id);
         Task<string> GetRoomCountMessageByHotelIdAsync(int hotelId);

@@ -1,4 +1,5 @@
-﻿using Hotel_Booking_System.Data;
+﻿using AutoMapper;
+using Hotel_Booking_System.Data;
 using Hotel_Booking_System.Dto;
 using Hotel_Booking_System.Models;
 using Hotel_Booking_System.Repositories;
@@ -15,10 +16,12 @@ namespace Hotel_Booking_System.Controllers
     public class RoomController : ControllerBase
     {
         private readonly IRoomRepositories _hotelRepo;
+        private readonly IMapper _mapper;
 
-        public RoomController(IRoomRepositories hotelRepo)
+        public RoomController(IRoomRepositories hotelRepo,IMapper mapper)
         {
             _hotelRepo = hotelRepo;
+            _mapper = mapper;
         }
 
 
@@ -68,12 +71,10 @@ namespace Hotel_Booking_System.Controllers
         {
             try
             {
-                if (room == null)
-                {
-                    return BadRequest();
-                }
-                var addedHotel = await _hotelRepo.PostRoomAsync(room);
-                return CreatedAtAction(nameof(GetRoomById), new { id = addedHotel.RoomId }, addedHotel);
+                var addedRoom = _mapper.Map<Room>(room);
+                await _hotelRepo.PostRoomAsync(addedRoom);
+                return Ok(addedRoom);
+                return CreatedAtAction(nameof(GetRoomById), new { id = addedRoom.RoomId }, addedRoom);
             }
             catch (Exception ex)
             {
