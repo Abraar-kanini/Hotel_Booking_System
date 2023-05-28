@@ -71,7 +71,7 @@ namespace Hotel_Booking_System.Controllers
                 
                 var addedHotel = _mapper.Map<Hotel>(hotel);
                 await _hotelRepo.PostHotelsAsync(addedHotel);
-                return Ok(addedHotel);
+                return CreatedAtAction(nameof(GetHotelById), new { id = addedHotel.HotelId }, addedHotel);
             }
             catch (Exception ex)
             {

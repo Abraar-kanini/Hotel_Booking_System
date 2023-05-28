@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hotel_Booking_System.Repositories.RepositoriesClass
 {
-    public class HotelRepositories : IHotelRepositories
+    public class HotelRepositories : GenericRepository<Hotel>, IHotelRepositories
     {
 
         private readonly HotelRoomDbContext projectcontext;
         
 
-        public HotelRepositories(HotelRoomDbContext context)
+        public HotelRepositories(HotelRoomDbContext context):base(context)
         {
             this.projectcontext = context;
         }

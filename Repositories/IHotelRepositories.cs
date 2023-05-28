@@ -3,10 +3,8 @@ using Hotel_Booking_System.Models;
 
 namespace Hotel_Booking_System.Repositories
 {
-    public interface IHotelRepositories
+    public interface IHotelRepositories:IGenericRepository<Hotel>
     {
-        Task<IEnumerable<Hotel>> GetAllHotelsAsync();
-        Task<Hotel> GetHotelByIdAsync(int id);
         Task<Hotel> PostHotelsAsync(Hotel hotel);
         Task<Hotel> PutHotelAsync(int id, Hotel hotel);
         Task<Hotel> DelHotelsAsync(int id);

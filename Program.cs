@@ -33,6 +33,7 @@ builder.Services.AddDbContext<HotelRoomDbContext>(option => option.UseSqlServer(
 
 
 #endregion
+builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IHotelRepositories, HotelRepositories>();
 builder.Services.AddScoped<IRoomRepositories, RoomlRepositories>();
 
