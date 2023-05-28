@@ -17,11 +17,13 @@ namespace Hotel_Booking_System.Controllers
     {
         private readonly IHotelRepositories _hotelRepo;
         private readonly IMapper _mapper;
+        private readonly ILogger<HotelController> logger;
 
-        public HotelController(IHotelRepositories hotelRepo,IMapper mapper)
+        public HotelController(IHotelRepositories hotelRepo,IMapper mapper, ILogger<HotelController> logger)
         {
             _hotelRepo = hotelRepo;
             _mapper = mapper;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -32,6 +34,7 @@ namespace Hotel_Booking_System.Controllers
             try
             {
                 var hotels = await _hotelRepo.GetAllHotelsAsync();
+
                 return Ok(hotels);
             }
             catch (Exception ex)
@@ -50,6 +53,7 @@ namespace Hotel_Booking_System.Controllers
                 var hotel = await _hotelRepo.GetHotelByIdAsync(id);
                 if (hotel == null)
                 {
+                    logger.LogError($"Error While Try To get Record id:{id}");
                     return NotFound();
                 }
                 return Ok(hotel);

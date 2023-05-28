@@ -29,9 +29,29 @@ namespace Hotel_Booking_System.Repositories.RepositoriesClass
             }
         }
 
-       
+        public async Task<IEnumerable<Room>> GetAllRoomAsync()
+        {
+            try
+            {
+                return await projectcontext.Rooms.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-       
+        public async Task<Room> GetRoomByIdAsync(int id)
+        {
+            try
+            {
+                return await projectcontext.Rooms.FirstOrDefaultAsync(x => x.RoomId == id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public async Task<Room> PostRoomAsync(Room room)
         {

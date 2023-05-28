@@ -6,6 +6,7 @@ using Hotel_Booking_System.Repositories.RepositoriesClass;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,16 @@ builder.Services.AddScoped<IRoomRepositories, RoomlRepositories>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+#endregion
+#region configure Serilog
+builder.Host.UseSerilog((context, config) =>
+{
+    config.WriteTo.File("Log/log.txt",rollingInterval:RollingInterval.Day);
+    if (context.HostingEnvironment.IsProduction() == false)
+    {
+        config.WriteTo.Console();
+    }
+});
 #endregion
 
 

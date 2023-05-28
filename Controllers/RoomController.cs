@@ -32,7 +32,7 @@ namespace Hotel_Booking_System.Controllers
         {
             try
             {
-                var hotels = await _hotelRepo.GetAllRoomAsync();
+                var hotels = await _hotelRepo.GetAllHotelsAsync();
                 return Ok(hotels);
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace Hotel_Booking_System.Controllers
         {
             try
             {
-                var hotel = await _hotelRepo.GetRoomByIdAsync(id);
+                var hotel = await _hotelRepo.GetHotelByIdAsync(id);
                 if (hotel == null)
                 {
                     return NotFound();
@@ -74,7 +74,7 @@ namespace Hotel_Booking_System.Controllers
                 var addedRoom = _mapper.Map<Room>(room);
                 await _hotelRepo.PostRoomAsync(addedRoom);
                 return Ok(addedRoom);
-                return CreatedAtAction(nameof(GetRoomById), new { id = addedRoom.RoomId }, addedRoom);
+                
             }
             catch (Exception ex)
             {

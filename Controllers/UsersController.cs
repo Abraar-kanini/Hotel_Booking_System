@@ -15,14 +15,18 @@ namespace Hotel_Booking_System.Controllers
     public class UsersController : ControllerBase
     {
         private readonly HotelRoomDbContext _context;
+        private readonly ILogger<HotelController> logger;
 
-        public UsersController(HotelRoomDbContext context)
+        public UsersController(HotelRoomDbContext context, ILogger<HotelController> logger)
         {
             _context = context;
+            this.logger = logger;
         }
 
-        // GET: api/Users
+        
         [HttpGet]
+        [ProducesResponseType(statusCode:204)]
+        [ProducesResponseType(statusCode: 200)]
         public async Task<ActionResult<IEnumerable<User>>> Getusers()
         {
           if (_context.users == null)
@@ -32,8 +36,10 @@ namespace Hotel_Booking_System.Controllers
             return await _context.users.ToListAsync();
         }
 
-        // GET: api/Users/5
+        
         [HttpGet("{id}")]
+        [ProducesResponseType(statusCode: 204)]
+        [ProducesResponseType(statusCode: 200)]
         public async Task<ActionResult<User>> GetUser(int id)
         {
           if (_context.users == null)
@@ -50,9 +56,10 @@ namespace Hotel_Booking_System.Controllers
             return user;
         }
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+     
         [HttpPut("{id}")]
+        [ProducesResponseType(statusCode: 201)]
+        [ProducesResponseType(statusCode: 409)]
         public async Task<IActionResult> PutUser(int id, User user)
         {
             if (id != user.UserId)
@@ -81,9 +88,10 @@ namespace Hotel_Booking_System.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+       
         [HttpPost]
+        [ProducesResponseType(statusCode:201)]
+        [ProducesResponseType(statusCode: 409)]
         public async Task<ActionResult<User>> PostUser(User user)
         {
           if (_context.users == null)
@@ -96,12 +104,16 @@ namespace Hotel_Booking_System.Controllers
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
 
-        // DELETE: api/Users/5
+        
         [HttpDelete("{id}")]
+        [ProducesResponseType(statusCode: 204)]
+        [ProducesResponseType(statusCode: 404)]
+        [ProducesResponseType(statusCode: 400)]
         public async Task<IActionResult> DeleteUser(int id)
         {
             if (_context.users == null)
             {
+                logger.LogError($"Error While Try To get Record id:{id}");
                 return NotFound();
             }
             var user = await _context.users.FindAsync(id);
