@@ -85,7 +85,7 @@ namespace Hotel_Booking_System.Repositories.RepositoriesClass
                 throw ex;
             }
         }
-
+        //jdjdjd
 
 
         public async Task<Hotel> GetHotelByIdAsync(int id)
