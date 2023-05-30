@@ -12,7 +12,7 @@ namespace Hotel_Booking_System.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+   // [Authorize]
     public class HotelController : ControllerBase
     {
         private readonly IHotelRepositories _hotelRepo;
@@ -86,8 +86,8 @@ namespace Hotel_Booking_System.Controllers
 
         // PUT api/<ProjectController>/5
         [HttpPut("{id}")]
-        [ProducesResponseType(statusCode: 202)]
-        [ProducesResponseType(statusCode: 404)]
+        [ProducesResponseType(statusCode: 201)]
+        [ProducesResponseType(statusCode: 409)]
         public async Task<IActionResult> PutHotel(int id, [FromBody] Hotel hotel)
         {
             try
@@ -111,7 +111,8 @@ namespace Hotel_Booking_System.Controllers
 
         [HttpDelete("{id}")]
         [ProducesResponseType(statusCode: 204)]
-        [ProducesResponseType(statusCode: 200)]
+        [ProducesResponseType(statusCode: 404)]
+        [ProducesResponseType(statusCode: 400)]
         public async Task<IActionResult> DelHotels(int id)
         {
             try

@@ -12,16 +12,18 @@ namespace Hotel_Booking_System.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class RoomController : ControllerBase
     {
         private readonly IRoomRepositories _hotelRepo;
         private readonly IMapper _mapper;
+        private readonly ILogger<HotelController> logger;
 
-        public RoomController(IRoomRepositories hotelRepo,IMapper mapper)
+        public RoomController(IRoomRepositories hotelRepo,IMapper mapper, ILogger<HotelController> logger)
         {
             _hotelRepo = hotelRepo;
             _mapper = mapper;
+            this.logger = logger;
         }
 
 
@@ -52,6 +54,7 @@ namespace Hotel_Booking_System.Controllers
                 var hotel = await _hotelRepo.GetHotelByIdAsync(id);
                 if (hotel == null)
                 {
+                    logger.LogError($"Error While Try To get Record id:{id}");
                     return NotFound();
                 }
                 return Ok(hotel);
@@ -83,8 +86,8 @@ namespace Hotel_Booking_System.Controllers
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(statusCode: 202)]
-        [ProducesResponseType(statusCode: 200)]
+        [ProducesResponseType(statusCode: 201)]
+        [ProducesResponseType(statusCode: 409)]
         public async Task<IActionResult> PutHotel(int id, [FromBody] Room room
             )
         {
@@ -108,7 +111,8 @@ namespace Hotel_Booking_System.Controllers
         }
         [HttpDelete("{id}")]
         [ProducesResponseType(statusCode: 204)]
-        [ProducesResponseType(statusCode: 200)]
+        [ProducesResponseType(statusCode: 404)]
+        [ProducesResponseType(statusCode: 400)]
         public async Task<IActionResult> DelHotels(int id)
         {
             try

@@ -26,17 +26,21 @@ builder.Services.AddControllers().AddNewtonsoftJson(Options =>
 
 
 
-#region
+#region configure Connection
 
 var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<HotelRoomDbContext>(option => option.UseSqlServer(ConnectionString));
 
 
-#endregion
+#endregion 
+#region configure Repository
 builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IHotelRepositories, HotelRepositories>();
+
 builder.Services.AddScoped<IRoomRepositories, RoomlRepositories>();
+#endregion
+
 
 #region configure AutoMapper
 
@@ -55,10 +59,8 @@ builder.Host.UseSerilog((context, config) =>
 #endregion
 
 
-builder.Services.AddControllers().AddNewtonsoftJson(options =>
-{
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-});
+
+#region configure JWT Token
 // Adding Authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -80,6 +82,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
     };
 });
+#endregion
 
 
 var app = builder.Build();
